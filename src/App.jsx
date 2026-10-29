@@ -127,6 +127,7 @@ export default function App() {
   const [openFaq, setOpenFaq] = useState(null);
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -136,6 +137,14 @@ export default function App() {
   const [userName, setUserName] = useState('');
 
   const videoRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 900);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -182,7 +191,7 @@ export default function App() {
     alert('Signed in successfully!');
   };
 
-  const maxIndex = SKILL_CAROUSEL_ITEMS.length - 1;
+  const maxIndex = isMobile ? SKILL_CAROUSEL_ITEMS.length - 1 : SKILL_CAROUSEL_ITEMS.length - 3;
 
   const nextSlide = () => {
     setCarouselIndex((prev) => (prev >= maxIndex ? maxIndex : prev + 1));
@@ -192,12 +201,16 @@ export default function App() {
     setCarouselIndex((prev) => (prev <= 0 ? 0 : prev - 1));
   };
 
+  // Responsive slide step calculation for inline style
+  const slideStep = isMobile ? 100 : 280;
+  const slideUnit = isMobile ? '%' : 'px';
+
   return (
     <div className="elearn-app">
       {/* 1. NAVBAR */}
       <nav className="navbar">
         <div className="container nav-flex">
-          <div className="brand"> e-learn</div>
+          <div className="brand">🎓 e-learn</div>
           
           <div className="nav-search">
             <input type="text" placeholder="Search for courses, skills..." />
@@ -251,7 +264,7 @@ export default function App() {
                   type="password"
                   placeholder="Enter password"
                   value={signInPassword}
-                  onChange={(e) => setsignInPassword(e.target.value)}
+                  onChange={(e) => setSignInPassword(e.target.value)}
                   required
                 />
               </label>
@@ -305,7 +318,7 @@ export default function App() {
             <div className="udemy-slider-container aos-right-slide">
               <div 
                 className="udemy-slider-track" 
-                style={{ transform: `translateX(-${carouselIndex * 280}px)` }}
+                style={{ transform: `translateX(-${carouselIndex * slideStep}${slideUnit})` }}
               >
                 {SKILL_CAROUSEL_ITEMS.map((item) => (
                   <div className="udemy-card" key={item.id}>
@@ -322,15 +335,15 @@ export default function App() {
 
               <div className="udemy-slider-controls">
                 <button className="slider-arrow-btn" onClick={prevSlide} disabled={carouselIndex === 0}>‹</button>
-             <div className="slider-pagination-dots">
-  {[0, 1, 2, 3,4].map((dotIndex) => (
-    <span 
-      key={dotIndex} 
-      className={`dot-pill ${carouselIndex === dotIndex ? 'active' : ''}`}
-      onClick={() => setCarouselIndex(dotIndex)}
-    ></span>
-  ))}
-</div>
+                <div className="slider-pagination-dots">
+                  {SKILL_CAROUSEL_ITEMS.map((_, dotIndex) => (
+                    <span 
+                      key={dotIndex} 
+                      className={`dot-pill ${carouselIndex === dotIndex ? 'active' : ''}`}
+                      onClick={() => setCarouselIndex(dotIndex)}
+                    ></span>
+                  ))}
+                </div>
                 <button className="slider-arrow-btn" onClick={nextSlide} disabled={carouselIndex >= maxIndex}>›</button>
               </div>
             </div>
@@ -344,7 +357,7 @@ export default function App() {
           <h2 className="section-title aos-up">Shop by Category</h2>
           <div className="category-grid">
             {CATEGORIES.map((cat, idx) => (
-              <div key={cat.id} className={`category-card hover-card {idx % 2 === 0 ? 'aos-zoom' : 'aos-up'}`}>
+              <div key={cat.id} className={`category-card hover-card ${idx % 2 === 0 ? 'aos-zoom' : 'aos-up'}`}>
                 <span className="cat-icon">{cat.icon}</span>
                 <h3>{cat.name}</h3>
                 <p>{cat.count}</p>
@@ -368,7 +381,7 @@ export default function App() {
                 <div className="card-content">
                   <h3>{course.title}</h3>
                   <p className="instructor">By {course.instructor}</p>
-                  <div className="rating"> {course.rating} ({course.reviews})</div>
+                  <div className="rating">⭐ {course.rating} ({course.reviews})</div>
                   <div className="price-row">
                     <span className="price">₹{course.price}</span>
                     <span className="old-price">₹{course.originalPrice}</span>
@@ -395,7 +408,7 @@ export default function App() {
                 <div className="card-content">
                   <h3>{course.title}</h3>
                   <p className="instructor">By {course.instructor}</p>
-                  <div className="rating"> {course.rating} ({course.reviews})</div>
+                  <div className="rating">⭐ {course.rating} ({course.reviews})</div>
                   <div className="price-row">
                     <span className="price">₹{course.price}</span>
                     <span className="old-price">₹{course.originalPrice}</span>
@@ -500,18 +513,10 @@ export default function App() {
       <section className="section">
         <div className="container highlight-grid">
           <img src="https://i.pinimg.com/1200x/a0/ef/84/a0ef84603f9da5af7973a6715c54e3cf.jpg" alt="Highlight" className="aos-left-slide highlight-img" />
-          <div className="aos-right-slide">
+          <div className="aos-right-slide highlight-text-wrapper">
             <h2>Interactive Hands-On Learning</h2>
             <p>Every course features coding sandboxes, quizzes, and portfolio milestone projects to cement your practical mastery.</p>
-            <p>Elearning content types
-Varied formats and methods for delivering engaging and effective eLearning experiences
- 
-AI Overview
-
-Like
-
-Dislike
-E-learning content encompasses digital materials like videos, quizzes, interactive modules, and simulations designed to engage learners and achieve specific learning outcomes.</p>
+            <p>Elearning content types: Varied formats and methods for delivering engaging and effective eLearning experiences. E-learning content encompasses digital materials like videos, quizzes, interactive modules, and simulations designed to engage learners and achieve specific learning outcomes.</p>
           </div>
         </div>
       </section>
