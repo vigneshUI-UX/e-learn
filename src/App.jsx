@@ -182,7 +182,7 @@ export default function App() {
     alert('Signed in successfully!');
   };
 
-  const maxIndex = SKILL_CAROUSEL_ITEMS.length - 3;
+  const maxIndex = SKILL_CAROUSEL_ITEMS.length - 1;
 
   const nextSlide = () => {
     setCarouselIndex((prev) => (prev >= maxIndex ? maxIndex : prev + 1));
@@ -322,15 +322,15 @@ export default function App() {
 
               <div className="udemy-slider-controls">
                 <button className="slider-arrow-btn" onClick={prevSlide} disabled={carouselIndex === 0}>‹</button>
-                <div className="slider-pagination-dots">
-                  {[0, 1, 2].map((dotIndex) => (
-                    <span 
-                      key={dotIndex} 
-                      className={`dot-pill ${carouselIndex === dotIndex ? 'active' : ''}`}
-                      onClick={() => setCarouselIndex(dotIndex)}
-                    ></span>
-                  ))}
-                </div>
+             <div className="slider-pagination-dots">
+  {[0, 1, 2, 3,4].map((dotIndex) => (
+    <span 
+      key={dotIndex} 
+      className={`dot-pill ${carouselIndex === dotIndex ? 'active' : ''}`}
+      onClick={() => setCarouselIndex(dotIndex)}
+    ></span>
+  ))}
+</div>
                 <button className="slider-arrow-btn" onClick={nextSlide} disabled={carouselIndex >= maxIndex}>›</button>
               </div>
             </div>
