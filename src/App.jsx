@@ -127,7 +127,7 @@ export default function App() {
   const [openFaq, setOpenFaq] = useState(null);
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSignInOpen, setIsSignInOpen] = useState(false);
@@ -139,9 +139,7 @@ export default function App() {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 900);
-    };
+    const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -191,7 +189,12 @@ export default function App() {
     alert('Signed in successfully!');
   };
 
-  const maxIndex = isMobile ? SKILL_CAROUSEL_ITEMS.length - 1 : SKILL_CAROUSEL_ITEMS.length - 3;
+  // Carousel layout calculation for mobile vs large/ultra-wide screens up to 2560px
+  const isMobile = windowWidth <= 900;
+  const isWideScreen = windowWidth >= 1440;
+  
+  const visibleCards = isMobile ? 1 : isWideScreen ? 4 : 3;
+  const maxIndex = SKILL_CAROUSEL_ITEMS.length - visibleCards;
 
   const nextSlide = () => {
     setCarouselIndex((prev) => (prev >= maxIndex ? maxIndex : prev + 1));
@@ -201,8 +204,7 @@ export default function App() {
     setCarouselIndex((prev) => (prev <= 0 ? 0 : prev - 1));
   };
 
-  // Responsive slide step calculation for inline style
-  const slideStep = isMobile ? 100 : 280;
+  const slideStep = isMobile ? 100 : 300;
   const slideUnit = isMobile ? '%' : 'px';
 
   return (
@@ -337,11 +339,13 @@ export default function App() {
                 <button className="slider-arrow-btn" onClick={prevSlide} disabled={carouselIndex === 0}>‹</button>
                 <div className="slider-pagination-dots">
                   {SKILL_CAROUSEL_ITEMS.map((_, dotIndex) => (
-                    <span 
-                      key={dotIndex} 
-                      className={`dot-pill ${carouselIndex === dotIndex ? 'active' : ''}`}
-                      onClick={() => setCarouselIndex(dotIndex)}
-                    ></span>
+                    dotIndex <= maxIndex && (
+                      <span 
+                        key={dotIndex} 
+                        className={`dot-pill ${carouselIndex === dotIndex ? 'active' : ''}`}
+                        onClick={() => setCarouselIndex(dotIndex)}
+                      ></span>
+                    )
                   ))}
                 </div>
                 <button className="slider-arrow-btn" onClick={nextSlide} disabled={carouselIndex >= maxIndex}>›</button>
@@ -393,12 +397,11 @@ export default function App() {
           </div>
         </div>
       </section>
-
-      {/* 5. NEW ARRIVALS */}
+{/* 5. NEW ARRIVALS */}
       <section className="section">
         <div className="container">
           <h2 className="section-title aos-up">New Arrivals</h2>
-          <div className="products-grid">
+          <div className="products-grid two-items-grid">
             {NEW_ARRIVALS.map((course, idx) => (
               <div key={course.id} className={`product-card hover-card ${idx % 2 === 0 ? 'aos-left-slide' : 'aos-right-slide'}`}>
                 <div className="img-wrapper">

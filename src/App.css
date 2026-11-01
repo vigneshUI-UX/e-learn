@@ -22,6 +22,44 @@ html, body {
   width: 100%;
 }
 
+/* ==========================================================
+   ULTRA-WIDE & 2560px SCREEN SUPPORT
+   ========================================================== */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1850px;
+    padding: 0 60px;
+  }
+
+  .section-title {
+    font-size: 3rem;
+  }
+
+  .category-grid {
+    grid-template-columns: repeat(6, 1fr) !important;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  .udemy-carousel-wrapper {
+    grid-template-columns: 420px 1fr;
+    gap: 80px;
+  }
+}
+
+@media (min-width: 2200px) and (max-width: 2560px) {
+  .container {
+    max-width: 2100px;
+    padding: 0 80px;
+  }
+}
+
 .section {
   padding: 80px 0;
 }
@@ -390,7 +428,7 @@ html, body {
 }
 
 /* =========================================
-   4. SKILL CAROUSEL (RESPONSIVE SINGLE/MULTI)
+   4. SKILL CAROUSEL
    ========================================= */
 .udemy-carousel-section {
   background-color: #ffffff;
@@ -549,7 +587,6 @@ html, body {
   background: #2563eb;
 }
 
-/* Mobile responsive single card view override */
 @media (max-width: 900px) {
   .udemy-slider-track {
     gap: 0px;
@@ -1195,4 +1232,44 @@ html, body {
 .aos-zoom.aos-visible {
   opacity: 1;
   transform: scale(1);
+}
+/* =========================================
+   PRODUCTS GRID ALIGNMENT
+   ========================================= */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 340px);
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+}
+
+/* Specific class for New Arrivals (or any 2-item grid) to center them */
+.products-grid.two-items-grid {
+  grid-template-columns: repeat(2, 340px);
+  justify-content: center;
+}
+
+.product-card {
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  border-color: #2563eb;
+  box-shadow: 0 16px 32px rgba(37, 99, 235, 0.15);
+}
+
+@media (max-width: 1100px) {
+  .products-grid,
+  .products-grid.two-items-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    padding: 0 20px;
+  }
 }
