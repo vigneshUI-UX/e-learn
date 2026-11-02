@@ -21,12 +21,12 @@ const SKILL_CAROUSEL_ITEMS = [
 ];
 
 const CATEGORIES = [
-  { id: '1', name: 'Development', icon: '💻', count: '1,240 Courses' },
-  { id: '2', name: 'Design & UX', icon: '🎨', count: '850 Courses' },
-  { id: '3', name: 'AI & Data Science', icon: '🤖', count: '620 Courses' },
-  { id: '4', name: 'Business', icon: '📈', count: '940 Courses' },
-  { id: '5', name: 'Photography', icon: '📷', count: '410 Courses' },
-  { id: '6', name: 'Marketing', icon: '🎯', count: '530 Courses' }
+  { id: '1', name: 'Development', icon: 'bi-code-slash', count: '1,240 Courses' },
+  { id: '2', name: 'Design & UX', icon: 'bi-palette', count: '850 Courses' },
+  { id: '3', name: 'AI & Data Science', icon: 'bi-cpu', count: '620 Courses' },
+  { id: '4', name: 'Business', icon: 'bi-graph-up-arrow', count: '940 Courses' },
+  { id: '5', name: 'Photography', icon: 'bi-camera', count: '410 Courses' },
+  { id: '6', name: 'Marketing', icon: 'bi-bullseye', count: '530 Courses' }
 ];
 
 const BEST_SELLERS = [
@@ -189,7 +189,6 @@ export default function App() {
     alert('Signed in successfully!');
   };
 
-  // Carousel layout calculation for mobile vs large/ultra-wide screens up to 2560px
   const isMobile = windowWidth <= 900;
   const isWideScreen = windowWidth >= 1440;
   
@@ -212,7 +211,7 @@ export default function App() {
       {/* 1. NAVBAR */}
       <nav className="navbar">
         <div className="container nav-flex">
-          <div className="brand">🎓 e-learn</div>
+          <div className="brand"><i className="bi bi-mortarboard-fill"></i> e-learn</div>
           
           <div className="nav-search">
             <input type="text" placeholder="Search for courses, skills..." />
@@ -223,7 +222,7 @@ export default function App() {
             <a href="#bestsellers" onClick={() => setIsMobileMenuOpen(false)}>Courses</a>
             <a href="#about" onClick={() => setIsMobileMenuOpen(false)}>About</a>
             <a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</a>
-            <button className="cart-btn">🛒 Cart ({cart.length})</button>
+            <button className="cart-btn"><i className="bi bi-cart3"></i> Cart ({cart.length})</button>
             {isLoggedIn ? (
               <span className="user-greeting">Hi, {userName}</span>
             ) : (
@@ -238,7 +237,7 @@ export default function App() {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Menu"
           >
-            {isMobileMenuOpen ? '✕' : '☰'}
+            {isMobileMenuOpen ? <i className="bi bi-x-lg"></i> : <i className="bi bi-list"></i>}
           </button>
         </div>
       </nav>
@@ -247,7 +246,7 @@ export default function App() {
       {isSignInOpen && (
         <div className="modal-overlay" onClick={() => setIsSignInOpen(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setIsSignInOpen(false)}>✕</button>
+            <button className="modal-close" onClick={() => setIsSignInOpen(false)}><i className="bi bi-x-lg"></i></button>
             <h2>Log in to your e-learn account</h2>
             <form onSubmit={handleSignInSubmit} className="signin-form">
               <label>
@@ -329,14 +328,13 @@ export default function App() {
                     </div>
                     <div className="udemy-card-footer">
                       <h3>{item.title}</h3>
-                      <span className="arrow-icon">→</span>
                     </div>
                   </div>
                 ))}
               </div>
 
               <div className="udemy-slider-controls">
-                <button className="slider-arrow-btn" onClick={prevSlide} disabled={carouselIndex === 0}>‹</button>
+                <button className="slider-arrow-btn" onClick={prevSlide} disabled={carouselIndex === 0}><i className="bi bi-chevron-left"></i></button>
                 <div className="slider-pagination-dots">
                   {SKILL_CAROUSEL_ITEMS.map((_, dotIndex) => (
                     dotIndex <= maxIndex && (
@@ -348,7 +346,7 @@ export default function App() {
                     )
                   ))}
                 </div>
-                <button className="slider-arrow-btn" onClick={nextSlide} disabled={carouselIndex >= maxIndex}>›</button>
+                <button className="slider-arrow-btn" onClick={nextSlide} disabled={carouselIndex >= maxIndex}><i className="bi bi-chevron-right"></i></button>
               </div>
             </div>
           </div>
@@ -362,7 +360,7 @@ export default function App() {
           <div className="category-grid">
             {CATEGORIES.map((cat, idx) => (
               <div key={cat.id} className={`category-card hover-card ${idx % 2 === 0 ? 'aos-zoom' : 'aos-up'}`}>
-                <span className="cat-icon">{cat.icon}</span>
+                <span className="cat-icon"><i className={`bi ${cat.icon}`}></i></span>
                 <h3>{cat.name}</h3>
                 <p>{cat.count}</p>
               </div>
@@ -385,7 +383,7 @@ export default function App() {
                 <div className="card-content">
                   <h3>{course.title}</h3>
                   <p className="instructor">By {course.instructor}</p>
-                  <div className="rating">⭐ {course.rating} ({course.reviews})</div>
+                  <div className="rating"><i className="bi bi-star-fill text-warning"></i> {course.rating} ({course.reviews})</div>
                   <div className="price-row">
                     <span className="price">₹{course.price}</span>
                     <span className="old-price">₹{course.originalPrice}</span>
@@ -397,7 +395,8 @@ export default function App() {
           </div>
         </div>
       </section>
-{/* 5. NEW ARRIVALS */}
+
+      {/* 5. NEW ARRIVALS */}
       <section className="section">
         <div className="container">
           <h2 className="section-title aos-up">New Arrivals</h2>
@@ -411,7 +410,7 @@ export default function App() {
                 <div className="card-content">
                   <h3>{course.title}</h3>
                   <p className="instructor">By {course.instructor}</p>
-                  <div className="rating">⭐ {course.rating} ({course.reviews})</div>
+                  <div className="rating"><i className="bi bi-star-fill text-warning"></i> {course.rating} ({course.reviews})</div>
                   <div className="price-row">
                     <span className="price">₹{course.price}</span>
                     <span className="old-price">₹{course.originalPrice}</span>
@@ -472,22 +471,22 @@ export default function App() {
           <h2 className="section-title aos-up">Why Learn With e-learn</h2>
           <div className="features-grid">
             <div className="feature-item hover-card aos-left-slide">
-              <span>🎯</span>
+              <span className="feature-icon"><i className="bi bi-bullseye"></i></span>
               <h4>Learn at Your Pace</h4>
               <p>Lifetime access to video lectures and downloadable resources.</p>
             </div>
             <div className="feature-item hover-card aos-zoom">
-              <span>👨‍🏫</span>
+              <span className="feature-icon"><i className="bi bi-person-video3"></i></span>
               <h4>Expert Instructors</h4>
               <p>Taught by real-world professionals and industry leaders.</p>
             </div>
             <div className="feature-item hover-card aos-zoom">
-              <span>📜</span>
+              <span className="feature-icon"><i className="bi bi-award"></i></span>
               <h4>Certificates</h4>
               <p>Earn shareable certificates upon course completion.</p>
             </div>
             <div className="feature-item hover-card aos-right-slide">
-              <span>🛡️</span>
+              <span className="feature-icon"><i className="bi bi-shield-check"></i></span>
               <h4>Money-Back Guarantee</h4>
               <p>30-day refund window if you are not fully satisfied.</p>
             </div>
@@ -597,7 +596,7 @@ export default function App() {
               >
                 <div className="faq-question">
                   <h4>{faq.q}</h4>
-                  <span className="faq-icon">{openFaq === idx ? '−' : '+'}</span>
+                  <span className="faq-icon">{openFaq === idx ? <i className="bi bi-dash"></i> : <i className="bi bi-plus"></i>}</span>
                 </div>
                 {openFaq === idx && <p className="faq-answer">{faq.a}</p>}
               </div>
@@ -623,7 +622,7 @@ export default function App() {
       <footer className="footer">
         <div className="container footer-grid">
           <div className="footer-col brand-col aos-left-slide">
-            <h3>🎓 e-learn</h3>
+            <h3><i className="bi bi-mortarboard-fill"></i> e-learn</h3>
             <p>Empowering learners globally with world-class education.</p>
           </div>
           <div className="footer-col aos-up">

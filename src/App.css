@@ -16,19 +16,38 @@ html, body {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
   width: 100%;
 }
 
 /* ==========================================================
-   ULTRA-WIDE & 2560px SCREEN SUPPORT
+   FLUID ULTRA-WIDE RESPONSIVE GRID (Up to 2560px)
    ========================================================== */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(280px, 1fr));
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.products-grid.two-items-grid {
+  grid-template-columns: repeat(2, minmax(280px, 400px));
+  justify-content: center;
+  gap: 30px;
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+/* Scaling up smoothly for 1440px to 2560px monitors */
 @media (min-width: 1440px) {
   .container {
-    max-width: 1850px;
-    padding: 0 60px;
+    max-width: 1750px;
+    padding: 0 50px;
   }
 
   .section-title {
@@ -39,10 +58,6 @@ html, body {
     grid-template-columns: repeat(6, 1fr) !important;
   }
 
-  .products-grid {
-    grid-template-columns: repeat(3, 1fr) !important;
-  }
-
   .features-grid {
     grid-template-columns: repeat(4, 1fr) !important;
   }
@@ -51,12 +66,37 @@ html, body {
     grid-template-columns: 420px 1fr;
     gap: 80px;
   }
+
+  .products-grid {
+    grid-template-columns: repeat(3, minmax(340px, 420px));
+    gap: 40px;
+    max-width: 1600px;
+  }
+
+  .products-grid.two-items-grid {
+    grid-template-columns: repeat(2, minmax(340px, 420px));
+    gap: 40px;
+    max-width: 1050px;
+  }
 }
 
-@media (min-width: 2200px) and (max-width: 2560px) {
+/* Extreme 2560px Display Optimization */
+@media (min-width: 2200px) {
   .container {
     max-width: 2100px;
     padding: 0 80px;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(3, minmax(400px, 480px));
+    gap: 50px;
+    max-width: 1900px;
+  }
+
+  .products-grid.two-items-grid {
+    grid-template-columns: repeat(2, minmax(400px, 480px));
+    gap: 50px;
+    max-width: 1200px;
   }
 }
 
@@ -128,10 +168,6 @@ html, body {
 
 .nav-search input:focus {
   border-color: #38bdf8;
-}
-
-.nav-search input::placeholder {
-  color: #94a3b8;
 }
 
 .nav-links {
@@ -629,15 +665,11 @@ html, body {
   font-size: 2.5rem; 
   display: block;
   margin-bottom: 12px;
-}
-
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+  color: #2563eb;
 }
 
 .product-card {
+  width: 100%;
   background: white;
   border-radius: 12px;
   overflow: hidden;
@@ -721,6 +753,15 @@ html, body {
 
 .btn-add:hover {
   background: #2563eb;
+}
+
+@media (max-width: 1100px) {
+  .products-grid,
+  .products-grid.two-items-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    padding: 0 20px;
+    max-width: 100% !important;
+  }
 }
 
 /* =========================================
@@ -845,6 +886,13 @@ html, body {
   border-color: #2563eb;
   background-color: #faf5ff;
   transform: translateY(-4px);
+}
+
+.feature-icon {
+  font-size: 2rem;
+  color: #2563eb;
+  display: block;
+  margin-bottom: 12px;
 }
 
 .trusted-section {
@@ -1035,7 +1083,7 @@ html, body {
 }
 
 .faq-icon {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: #2563eb;
   line-height: 1;
@@ -1232,44 +1280,4 @@ html, body {
 .aos-zoom.aos-visible {
   opacity: 1;
   transform: scale(1);
-}
-/* =========================================
-   PRODUCTS GRID ALIGNMENT
-   ========================================= */
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 340px);
-  justify-content: center;
-  gap: 30px;
-  width: 100%;
-}
-
-/* Specific class for New Arrivals (or any 2-item grid) to center them */
-.products-grid.two-items-grid {
-  grid-template-columns: repeat(2, 340px);
-  justify-content: center;
-}
-
-.product-card {
-  width: 100%;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.product-card:hover {
-  transform: translateY(-6px);
-  border-color: #2563eb;
-  box-shadow: 0 16px 32px rgba(37, 99, 235, 0.15);
-}
-
-@media (max-width: 1100px) {
-  .products-grid,
-  .products-grid.two-items-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    padding: 0 20px;
-  }
 }
